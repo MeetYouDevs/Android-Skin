@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 设计规范颜色 -->
+    <color name="black_A">#303030</color>
+    <color name="black_a">#323232</color>
+    <color name="black_at">#323232</color>
+    <color name="black_b">#888888</color>
+    <color name="black_c">#999999</color>
+    <color name="black_d">#b5b5b5</color>
+    <color name="black_e">#dddddd</color>
+    <color name="black_et">#dddddd</color>
+    <color name="black_f">#eeeeee</color>
+    <color name="black_g">#fafafa</color>
+    <color name="black_h">#f5f5f5</color>
+    <color name="black_i">#e5e5e5</color>
+    <color name="black_j">#cccccc</color>
+    <color name="black_test">#000000</color>
+
+    <color name="white_a">#ffffff</color>
+    <color name="white_a_alpha_70">#b2ffffff</color>
+    <color name="white_a_alpha_50">#80ffffff</color>
+    <color name="white_at">#ffffff</color>
+    <color name="white_an">#ffffff</color>
+
+    <color name="red_a">#ff87a0</color>
+    <color name="red_b">#ff74b9</color>
+    <color name="red_bn">#ff74b9</color>
+    <color name="red_bt">#ff74b9</color>
+    <color name="red_c">#ec499a</color>
+    <color name="red_d">#ff5073</color>
+    <color name="red_e">#f43530</color>
+    <color name="red_f">#ffe2ec</color>
+    <color name="red_g">#ff7490</color>
+
+    <color name="colour_a">#377ce4</color>
+    <color name="colour_b">#e0b662</color>
+    <color name="colour_c">#7a59de</color>
+    <color name="colour_d">#ffa200</color>
+    <color name="colour_e">#ffff00</color>
+    <color name="colour_f">#ffffff</color>
+    <color name="colour_g">#b0d25b</color>
+    <color name="colour_h">#d099d0</color>
+    <color name="colour_i">#ff5073</color>
+    <color name="colour_j">#ffffff</color>
+    <color name="colour_k">#fff9f0</color>
+
+    <color name="colour_l">#3668b2</color>
+    <color name="colour_m">#ff8400</color>
+    <color name="colour_n">#ff6c00</color>
+    <color name="colour_o">#fffb00</color>
+    <color name="colour_p">#00c4a6</color>
+    <color name="colour_q">#b284e6</color>
+
+    <color name="xiyou_translucent">#7f000000</color>
+    <color name="trans_color">#00000000</color>
+
+    <!-- 图表颜色 -->
+    <color name="rcharview_balloon_indicator_shadow_color">#4cff87a0</color>
+    <color name="rcharview_cover_range_blue">#2A7bbce6</color>
+    <color name="rcharview_cover_range_gray">#2Ab1b0b1</color>
+    <color name="rcharview_cover_range_green">#2A82e02f</color>
+    <color name="rcharview_cover_range_red">#2Afd8d8d</color>
+
+    <!--图片默认背景色-->
+    <color name="web_mengban">#b0000000</color>
+    <color name="light_web_mengban">#7f000000</color>
+
+    <!--记录分析-->
+    <color name="green_bar_color">#99dc5e</color>
+    <color name="orange_bar_color">#fcb139</color>
+    <color name="red_bar_color">#ff5656</color>
+
+    <!-- 花柚币 -->
+    <color name="use_ucoin_banner_green">#35b87f</color>
+    <color name="use_ucoin_banner_orange">#ff7424</color>
+    <color name="use_ucoin_banner_blue">#2c418c</color>
+
+    <!-- 电商首页 -->
+    <color name="shop_window_left_title">#ff6700</color>
+    <color name="shop_window_right_top_title">#35b87f</color>
+    <color name="shop_window_right_bottom_title">#3b77ff</color>
+    <color name="all_black">#000000</color>
+    <color name="xiyou_white_50_percent_transparency">#88ffffff</color>
+    <!--状态栏的颜色 新加的-->
+    <color name="cust_status_color">#ff74B9</color>
+
+    <color name="red_a_bg">#e63b5c</color>
+    <!--首页花朵各个期的颜色-->
+    <color name="flower_weizhi">#996D4F</color>
+    <color name="flower_pailuan">#663989</color>
+    <color name="flower_yiyun">#782980</color>
+    <color name="flower_yuejing">#9C3764</color>
+    <color name="flower_yuce">#B94882</color>
+    <color name="flower_yunzao">#996D4F</color>
+    <color name="flower_yunzhong">#B94882</color>
+    <color name="flower_yunwan">#2E8EA5</color>
+    <color name="flower_huifu">#1CA999</color>
+    <color name="flower_anquan">#07995B</color>
+
+    <color name="personal_title_background">#33000000</color>
+
+    <color name="black_status_bar">#000000</color>
+</resources>

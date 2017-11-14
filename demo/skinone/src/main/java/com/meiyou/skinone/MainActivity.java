@@ -1,0 +1,11 @@
+package com.meiyou.skinone;
+
+import android.app.Activity;
+
+/**
+ * Author: meetyou
+ * Date: 17/11/10 18:43.
+ */
+
+public class MainActivity extends Activity {
+}
