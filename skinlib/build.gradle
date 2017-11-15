@@ -32,3 +32,13 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 }
+/*publish {
+    userOrg = 'Meetyou'
+    groupId = 'com.meiyou'
+    artifactId = 'android-skin'
+    publishVersion = '1.0'
+    desc = 'Android-Skin'
+    website = 'https://github.com/iceAnson/Android-Skin.git'
+}*/
+
+apply from: 'https://raw.githubusercontent.com/HomHomLin/GradlePublishing/master/android.gradle'

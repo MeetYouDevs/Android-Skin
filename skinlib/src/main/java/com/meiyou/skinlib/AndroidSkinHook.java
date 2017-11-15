@@ -29,7 +29,7 @@ public class AndroidSkinHook {
         application.registerActivityLifecycleCallbacks(new Application.ActivityLifecycleCallbacks() {
             @Override
             public void onActivityCreated(Activity activity, Bundle bundle) {
-                installLayoutFactory(activity);
+                hookLayoutInflater(activity);
             }
 
             @Override
@@ -64,7 +64,7 @@ public class AndroidSkinHook {
         });
     }
 
-    private void installLayoutFactory(Context context) {
+    private void hookLayoutInflater(Context context) {
         LayoutInflater layoutInflater = LayoutInflater.from(context);
         try {
             Field field = LayoutInflater.class.getDeclaredField("mFactorySet");
