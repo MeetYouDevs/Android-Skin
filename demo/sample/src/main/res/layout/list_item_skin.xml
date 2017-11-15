@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="fill_parent"
                 android:layout_height="?android:attr/listPreferredItemHeight"
-        android:background="@color/white_a"
+        android:background="@drawable/apk_all_white_selector"
     >
 
     <ImageView
