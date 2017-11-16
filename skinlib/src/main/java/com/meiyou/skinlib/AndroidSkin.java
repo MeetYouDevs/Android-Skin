@@ -45,13 +45,7 @@ public class AndroidSkin implements IAndroidSkin{
      * @param application
      */
     public void init(Application application) {
-        if(application==null)
-            return;
-        isInited = true;
-        mContext = application.getApplicationContext();
-        mAndroidSkinManager = new AndroidSkinManager(application.getApplicationContext());
-        mAndroidSkinManager.loadSkinIfApply();
-        AndroidSkinHook.getInstance().registerActivityLife(application);
+        init(application,true);
     }
 
     /**
