@@ -39,6 +39,11 @@ public class AndroidSkin implements IAndroidSkin{
     private AndroidSkin() {
     }
 
+    /**
+     * 初始化
+     * 默认 如果有皮肤的话，立刻生效
+     * @param application
+     */
     public void init(Application application) {
         if(application==null)
             return;
@@ -46,6 +51,22 @@ public class AndroidSkin implements IAndroidSkin{
         mContext = application.getApplicationContext();
         mAndroidSkinManager = new AndroidSkinManager(application.getApplicationContext());
         mAndroidSkinManager.loadSkinIfApply();
+        AndroidSkinHook.getInstance().registerActivityLife(application);
+    }
+
+    /**
+     * 初始化
+     * @param application
+     * @param isApplyImmediate 是否立刻生效
+     */
+    public void init(Application application,boolean isApplyImmediate) {
+        if(application==null)
+            return;
+        isInited = true;
+        mContext = application.getApplicationContext();
+        mAndroidSkinManager = new AndroidSkinManager(application.getApplicationContext());
+        if(isApplyImmediate)
+            mAndroidSkinManager.loadSkinIfApply();
         AndroidSkinHook.getInstance().registerActivityLife(application);
     }
 
