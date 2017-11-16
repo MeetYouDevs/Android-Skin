@@ -72,6 +72,7 @@ public class SkinSelectActivity extends ListActivity {
                     AndroidSkin.getInstance().clearSkinAndApply();
                 }else{
                     AndroidSkin.getInstance().saveSkinAndApply(apkFile, SkinLoader.ASSETS,null);
+
                 }
                 SkinSelectActivity.this.finish();
 

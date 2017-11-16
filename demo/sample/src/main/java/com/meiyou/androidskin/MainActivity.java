@@ -16,6 +16,7 @@ public class MainActivity extends AppCompatActivity {
         //AndroidSkin.getInstance().registerIgnoreSkinActivity(this);
         setContentView(R.layout.activity_main);
         initToolbar();
+
     }
 
     public void onSkinChange(View view){
