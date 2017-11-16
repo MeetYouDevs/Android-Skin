@@ -13,14 +13,15 @@ Android-Skin：极简单的android换肤框架，无缝支持第三方控件，�
 AndroidSkin.getInstance().saveSkinAndApply(skinFilePath, SkinLoader.ASSETS);
 ```
 
-执行之后，app即完成换肤，你将看到完美的换肤效果；
+执行之后，app即完成换肤，你将看到华丽的换肤效果；
 
 
 ## Demo
 
-![skinthree](./skinthree.jpg)
-![skinthree](./skintwo.jpg)
-![skinone](./skinone.jpg) 
+<img src="./skinthree.jpg" width = "400" height = "700" alt="默认皮肤" align=center />
+<img src="./skintwo.jpg" width = "400" height = "700" alt="皮肤一" align=center />
+<img src="./skinone.jpg" width = "400" height = "700" alt="皮肤二" align=center />
+<img src="./skinfour.jpg" width = "400" height = "700" alt="皮肤二" align=center />
 
 ## Usage
 
@@ -155,4 +156,4 @@ AndroidSkin.getInstance().setTextColor();
 
 
 
-## [License MIT](LICENSE)
+
