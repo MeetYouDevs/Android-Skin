@@ -18,10 +18,10 @@ AndroidSkin.getInstance().saveSkinAndApply(skinFilePath, SkinLoader.ASSETS);
 
 ## Demo
 
-<img src="./skinthree.jpg" width = "400" height = "700" alt="默认皮肤" align=center />
-<img src="./skintwo.jpg" width = "400" height = "700" alt="皮肤一" align=center />
-<img src="./skinone.jpg" width = "400" height = "700" alt="皮肤二" align=center />
-<img src="./skinfour.jpg" width = "400" height = "700" alt="皮肤二" align=center />
+<img src="./skinthree.jpg" width = "300" height = "500" alt="默认皮肤"  />
+<img src="./skintwo.jpg" width = "300" height = "500" alt="皮肤一" />
+<img src="./skinone.jpg" width = "300" height = "500" alt="皮肤二"  />
+<img src="./skinfour.jpg" width = "300" height = "500" alt="皮肤二"  />
 
 ## Usage
 
@@ -79,10 +79,10 @@ AndroidSkin.getInstance().registerIgnoreSkinView(view)
 
 
 
-####  关闭 view 的某个熟悉换肤
+####  关闭 view 的某个属性换肤
 
 ```java
-AndroidSkin.getInstance().registerIgnoreSkinView(view,"background","textColor)
+AndroidSkin.getInstance().registerIgnoreSkinView(view,"background","textColor”)
 ```	
 
 
