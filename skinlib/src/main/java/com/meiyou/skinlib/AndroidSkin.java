@@ -98,6 +98,11 @@ public class AndroidSkin implements IAndroidSkin{
         mAndroidSkinManager.loadSkinIfApply();
     }
 
+    public void applySkin(SkinListener listener) {
+        mAndroidSkinManager.setSkinApply(true);
+        mAndroidSkinManager.loadSkinIfApply(listener);
+    }
+
     @Override
     public void clearSkin() {
         mAndroidSkinManager.clearSkinInfo();
@@ -285,15 +290,14 @@ public class AndroidSkin implements IAndroidSkin{
 
         protected void onPostExecute(String result) {
             if(SkinStringUtils.isNull(result)){
+                AndroidSkin.getInstance().clearSkin();
                 if (mListener != null) {
                     mListener.onFail("换肤失败");
                 }
                 return;
             }
-            applySkin();
-            if (mListener != null) {
-                mListener.onSuccess();
-            }
+            applySkin(mListener);
+
         }
     }
 }

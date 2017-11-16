@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import com.meiyou.skinlib.AndroidSkinFactory;
 import com.meiyou.skinlib.AndroidSkinResources;
 
+import com.meiyou.skinlib.SkinListener;
 import com.meiyou.skinlib.util.FileUtils;
 import com.meiyou.skinlib.util.LogUtils;
 import com.meiyou.skinlib.util.PackageUtil;
@@ -101,13 +102,13 @@ public class AndroidSkinManager {
         }
         return mContext.getSharedPreferences(SP_SKIN_FILE, Context.MODE_PRIVATE).getBoolean(SP_IS_SKIN_APPLY, false);
     }
-
-    /**
-     * 加载皮肤资源
-     */
-    public void loadSkinIfApply() {
-        if(!isSkinApply())
+    public void loadSkinIfApply(final SkinListener listener) {
+        if(!isSkinApply()){
+            if(listener!=null){
+                listener.onFail("skin no apply");
+            }
             return;
+        }
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -120,6 +121,14 @@ public class AndroidSkinManager {
                     if(skinPackage==null || skinPath==null){
                         clearSkinInfo();
                         setSkinApply(false);
+                        mSkinHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(listener!=null){
+                                    listener.onFail("skinPackage or skinPath null");
+                                }
+                            }
+                        });
                         return;
                     }
                     LogUtils.d("loadSkinIfApply  apk " + skinPath);
@@ -130,6 +139,14 @@ public class AndroidSkinManager {
                     int add = (Integer) addAssetPath.invoke(mAssetManager, skinPath);
                     LogUtils.d("loadSkinIfApply add resources apk result " + add);
                     if (add <= 0) {
+                        mSkinHandler.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                if(listener!=null){
+                                    listener.onFail("load skin file failed");
+                                }
+                            }
+                        });
                         throw new RuntimeException("load res apk failed !!----" + skinPath);
                     }
                     //getResource
@@ -139,13 +156,30 @@ public class AndroidSkinManager {
                     //apply
                     mSkinHandler.sendEmptyMessage(APPLY_VIEW);
 
+                    mSkinHandler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            if(listener!=null){
+                                listener.onSuccess();
+                            }
+                        }
+                    });
 
                 }catch (Exception ex){
                     ex.printStackTrace();
+                    if(listener!=null){
+                        listener.onFail("skin exception:"+ex.getMessage());
+                    }
                 }
 
             }
         }).start();
+    }
+    /**
+     * 加载皮肤资源
+     */
+    public void loadSkinIfApply() {
+        loadSkinIfApply(null);
     }
 
 

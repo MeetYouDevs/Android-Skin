@@ -12,6 +12,7 @@ import android.widget.SimpleAdapter;
 import android.widget.Toast;
 
 import com.meiyou.skinlib.AndroidSkin;
+import com.meiyou.skinlib.SkinListener;
 import com.meiyou.skinlib.loader.SkinLoader;
 import com.meiyou.skinlib.util.FileUtils;
 
@@ -65,16 +66,32 @@ public class SkinSelectActivity extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position,
                                     long id) {
-                Toast.makeText(SkinSelectActivity.this,"您选择了：" + mSkinTitles[position], Toast.LENGTH_LONG).show();
+                //Toast.makeText(SkinSelectActivity.this,"您选择了：" + mSkinTitles[position], Toast.LENGTH_LONG).show();
 
                  String apkFile = mSkinFileName[position];
                 if(apkFile==null || apkFile.length()==0){
                     AndroidSkin.getInstance().clearSkinAndApply();
+                    SkinSelectActivity.this.finish();
                 }else{
-                    AndroidSkin.getInstance().saveSkinAndApply(apkFile, SkinLoader.ASSETS,null);
+                    AndroidSkin.getInstance().saveSkinAndApply(apkFile, SkinLoader.ASSETS, new SkinListener() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onSuccess() {
+                            Toast.makeText(getApplicationContext(),"换肤成功",Toast.LENGTH_SHORT).show();
+                            SkinSelectActivity.this.finish();
+                        }
+
+                        @Override
+                        public void onFail(String message) {
+                            Toast.makeText(getApplicationContext(),"换肤失败",Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 }
-                SkinSelectActivity.this.finish();
 
                 /*new AsyncTask<String, Void, String>(){
 
