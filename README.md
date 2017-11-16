@@ -18,10 +18,8 @@ AndroidSkin.getInstance().saveSkinAndApply(skinFilePath, SkinLoader.ASSETS);
 
 ## Demo
 
-<img src="./skinthree.jpg" width = "300" height = "500" alt="默认皮肤"  />
-<img src="./skintwo.jpg" width = "300" height = "500" alt="皮肤一" />
-<img src="./skinone.jpg" width = "300" height = "500" alt="皮肤二"  />
-<img src="./skinfour.jpg" width = "300" height = "500" alt="皮肤二"  />
+<img src="./all_pic.png"  />
+
 
 ## Usage
 
