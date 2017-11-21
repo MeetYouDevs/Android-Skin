@@ -38,6 +38,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".SkinSelectActivity"/>
+        <activity android:name=".databinding.DatabindingActivity"/>
+
     </application>
 
 </manifest>

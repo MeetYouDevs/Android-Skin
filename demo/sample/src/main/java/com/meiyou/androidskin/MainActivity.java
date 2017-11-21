@@ -6,7 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
-import com.meiyou.skinlib.AndroidSkin;
+import com.meiyou.androidskin.databinding.DatabindingActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -22,6 +22,12 @@ public class MainActivity extends AppCompatActivity {
     public void onSkinChange(View view){
         Intent intent = new Intent();
         intent.setClass(this,SkinSelectActivity.class);
+        startActivity(intent);
+    }
+
+    public void onDatabinding(View view){
+        Intent intent = new Intent();
+        intent.setClass(this,DatabindingActivity.class);
         startActivity(intent);
     }
 
