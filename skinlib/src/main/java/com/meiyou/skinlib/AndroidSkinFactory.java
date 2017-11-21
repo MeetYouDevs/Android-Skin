@@ -1,5 +1,16 @@
 package com.meiyou.skinlib;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.WeakHashMap;
+
 import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.Nullable;
@@ -14,17 +25,6 @@ import com.meiyou.skinlib.attr.MutableAttrFactory;
 import com.meiyou.skinlib.util.LogUtils;
 import com.meiyou.skinlib.util.ReflectUtil;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
-import java.util.WeakHashMap;
-
 /**
  * Author: meetyou
  * Date: 17/11/10 17:52.
@@ -34,13 +34,13 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
     private static final String sTAG = "AndroidSkinFactory";
     private WeakHashMap<View, List<MutableAttr>> holderMap = new WeakHashMap<>();
     private List<String> listActivity = new ArrayList<>();
-    //static private Field contextField;
+    // static private Field contextField;
     static private Class fragmentManagerClazz;
     static private Method createViewMethod;
     static private Field mFragmentsField;
     static LayoutInflater sInflater;
-
     static AndroidSkinFactory sInstance;
+
     private AndroidSkinFactory(Context context) {
 
     }
@@ -56,6 +56,7 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         sInflater = inflater;
         return sInstance;
     }
+
     public static AndroidSkinFactory from(Context context) {
         if (sInstance == null) {
             synchronized (AndroidSkinFactory.class) {
@@ -67,26 +68,23 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         return sInstance;
     }
 
-
     @Override
     public View onCreateView(View parent, String name, Context context, AttributeSet attributeSet) {
         View view = createView(name, context, attributeSet);
         List<MutableAttr> viewAttrs = saveAttrs(context, view, attributeSet);
-        if (viewAttrs != null
-                && !viewAttrs.isEmpty()
-                && AndroidSkin.getInstance().isSkinApply()
-                && !isInIgnoreSkinActivity(view)
-                ) {
+        if (viewAttrs != null && !viewAttrs.isEmpty() && AndroidSkin.getInstance().isSkinApply()
+            && !isInIgnoreSkinActivity(view)) {
             for (MutableAttr attr : viewAttrs) {
                 try {
                     attr.apply(view);
                 } catch (Exception e) {
-                    //LogUtils.w(sTAG, e.getLocalizedMessage());
+                    // LogUtils.w(sTAG, e.getLocalizedMessage());
                 }
             }
         }
         return view;
     }
+
     @Override
     public View onCreateView(String name, Context context, AttributeSet attributeSet) {
         return null;
@@ -101,26 +99,28 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         for (int i = 0; i < attrs.getAttributeCount(); i++) {
             String attrName = attrs.getAttributeName(i);
             String attrValue = attrs.getAttributeValue(i);
-            if (!MutableAttr.support(attrName)) {
+            if (!MutableAttr.support(attrName, MutableAttrManager.getInstance())) {
                 continue;
             }
 
             if (attrValue.startsWith("@")) {
                 if (attrValue.startsWith("@style/") || attrValue.startsWith("@android:style/")) {
-                    viewAttrs = ReflectUtil.processStyle(context,view, attrs, attrValue);
+                    viewAttrs = ReflectUtil.processStyle(context, view, attrs, attrValue);
                 } else {
                     try {
                         int id = Integer.parseInt(attrValue.substring(1));
-                        if (id == 0 ) {
+                        if (id == 0) {
                             if (!viewAttrs.isEmpty()) {
-                                //holderMap.put(view, viewAttrs);
-                                putView(view,viewAttrs);
+                                // holderMap.put(view, viewAttrs);
+                                putView(view, viewAttrs);
                             }
                             return viewAttrs;
                         }
                         String entryName = context.getResources().getResourceEntryName(id);
                         String typeName = context.getResources().getResourceTypeName(id);
-                        MutableAttr mutableAttr = MutableAttrFactory.create(attrName, id, entryName, typeName);
+                        MutableAttr mutableAttr =
+                            MutableAttrFactory.create(attrName, id, entryName, typeName,
+                                MutableAttrManager.getInstance());
                         if (mutableAttr != null) {
                             viewAttrs.add(mutableAttr);
                         }
@@ -133,22 +133,22 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         }
 
         if (!viewAttrs.isEmpty()) {
-            //holderMap.put(view, viewAttrs);
-            putView(view,viewAttrs);
+            // holderMap.put(view, viewAttrs);
+            putView(view, viewAttrs);
         }
         return viewAttrs;
     }
 
-    private void putView(View view , List<MutableAttr> viewAttrs){
-        if(!isInIgnoreSkinActivity(view)){
-            holderMap.put(view,viewAttrs);
+    private void putView(View view, List<MutableAttr> viewAttrs) {
+        if (!isInIgnoreSkinActivity(view)) {
+            holderMap.put(view, viewAttrs);
         }
     }
 
     @Nullable
     private View createView(String name, Context context, AttributeSet attrs) {
         View view = null;
-        LayoutInflater layoutInflater =sInflater;// getLayoutInflater(context);
+        LayoutInflater layoutInflater = sInflater;// getLayoutInflater(context);
         if (layoutInflater == null) {
             LogUtils.d(sTAG, "layoutInflater is null! cannot createview!");
             return null;
@@ -156,13 +156,14 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
 
         String prefix = null;
         view = processFragment(name, context, attrs);
-        if (view != null) return view;
+        if (view != null)
+            return view;
 
         try {
-            // need set again because of  set null by  layoutInflater in inflte method
-            //Object[] params = new Object[]{context, null};
-            //contextField.set(layoutInflater, params);
-            //注意 有些view 从  1.0 到现在 可能包名被改变了
+            // need set again because of set null by layoutInflater in inflte method
+            // Object[] params = new Object[]{context, null};
+            // contextField.set(layoutInflater, params);
+            // 注意 有些view 从 1.0 到现在 可能包名被改变了
             if (-1 == name.indexOf('.')) {
                 try {
                     if ("View".equals(name)) {
@@ -194,8 +195,8 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         } finally {
             try {
                 // release the context
-                //Object[] params = new Object[]{null, null};
-                //contextField.set(layoutInflater, params);
+                // Object[] params = new Object[]{null, null};
+                // contextField.set(layoutInflater, params);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -213,14 +214,14 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
      * @return
      */
     private View processFragment(String name, Context context, AttributeSet attrs) {
-        if ("fragment".equals(name)) { //fragment 对象本身的创建走默认方式
+        if ("fragment".equals(name)) { // fragment 对象本身的创建走默认方式
             LogUtils.d(sTAG, "create fragment tag!");
             FragmentActivity activity = (FragmentActivity) context;
             View view = null;
             if (activity != null) {
                 try {
                     if (mFragmentsField == null) {
-                        //得到FragmentManagetImpl对象
+                        // 得到FragmentManagetImpl对象
                         /*fragmentManagerClazz = Class.forName("android.support.v4.app.FragmentActivity");
                         Method getSupportManagerImplMethod = fragmentManagerClazz.getDeclaredMethod("getSupportFragmentManager");
                         getSupportManagerImplMethod.setAccessible(true);
@@ -231,32 +232,33 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
                         createViewMethod = getSupportManagerImplClass.getDeclaredMethod("onCreateView", params);
                         createViewMethod.setAccessible(true);*/
 
-
                         mFragmentsField = FragmentActivity.class.getDeclaredField("mFragments");
                         mFragmentsField.setAccessible(true);
-                        fragmentManagerClazz = Class.forName("android.support.v4.app.FragmentManager$FragmentManagerImpl");
-                        Class<?>[] params = new Class<?>[]{View.class, String.class, Context.class, AttributeSet.class};
+                        fragmentManagerClazz =
+                            Class.forName("android.support.v4.app.FragmentManager$FragmentManagerImpl");
+                        Class<?>[] params =
+                            new Class<?>[] {View.class, String.class, Context.class, AttributeSet.class};
                         createViewMethod = fragmentManagerClazz.getDeclaredMethod("onCreateView", params);
                         createViewMethod.setAccessible(true);
 
                     }
-                    if(createViewMethod!=null  && mFragmentsField!=null)
+                    if (createViewMethod != null && mFragmentsField != null)
                         view = (View) createViewMethod.invoke(mFragmentsField.get(activity), name, context, attrs);
                 } catch (NoSuchFieldException e) {
                     e.printStackTrace();
-                    mFragmentsField=null;
+                    mFragmentsField = null;
                 } catch (ClassNotFoundException e) {
                     e.printStackTrace();
-                    mFragmentsField=null;
+                    mFragmentsField = null;
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
-                    mFragmentsField=null;
+                    mFragmentsField = null;
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
-                    mFragmentsField=null;
+                    mFragmentsField = null;
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
-                    mFragmentsField=null;
+                    mFragmentsField = null;
                 }
             }
             return view;
@@ -265,12 +267,11 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
     }
 
     public boolean apply() {
-        Iterator<WeakHashMap.Entry<View, List<MutableAttr>>>
-                iterator = holderMap.entrySet().iterator();
+        Iterator<WeakHashMap.Entry<View, List<MutableAttr>>> iterator = holderMap.entrySet().iterator();
         while (iterator.hasNext()) {
             WeakHashMap.Entry<View, List<MutableAttr>> entry = iterator.next();
             View view = entry.getKey();
-            if(isInIgnoreSkinActivity(view)){
+            if (isInIgnoreSkinActivity(view)) {
                 return true;
             }
             List<MutableAttr> list = entry.getValue();
@@ -292,7 +293,7 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         if (view == null) {
             return true;
         }
-        if(isInIgnoreSkinActivity(view)){
+        if (isInIgnoreSkinActivity(view)) {
             return true;
         }
         List<MutableAttr> list = holderMap.get(view);
@@ -312,7 +313,7 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         apply((View) viewGroup);
         for (int i = 0; i < viewGroup.getChildCount(); i++) {
             View view = viewGroup.getChildAt(i);
-            if(isInIgnoreSkinActivity(view)){
+            if (isInIgnoreSkinActivity(view)) {
                 return true;
             }
             if (view instanceof ViewGroup) {
@@ -324,14 +325,14 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         return true;
     }
 
-
     @Override
     public void addRuntimeView(View view, List<MutableAttr> mutableAttrList) {
         if (view == null || mutableAttrList == null || mutableAttrList.isEmpty()) {
             return;
         }
-        if (checkAllNull(mutableAttrList)) return;
-        putView(view,mutableAttrList);
+        if (checkAllNull(mutableAttrList))
+            return;
+        putView(view, mutableAttrList);
     }
 
     private boolean checkAllNull(List<MutableAttr> mutableAttrList) {
@@ -348,37 +349,37 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
     /****忽略activity****/
     public void registerIgnoreSkinActivity(Activity activity) {
         try {
-            if(activity==null)
+            if (activity == null)
                 return;
-            if(!listActivity.contains(activity.hashCode()+"")){
-                listActivity.add(activity.hashCode()+"");
+            if (!listActivity.contains(activity.hashCode() + "")) {
+                listActivity.add(activity.hashCode() + "");
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public void unRegisterIgnoreSkinActivity(Activity activity){
+    public void unRegisterIgnoreSkinActivity(Activity activity) {
         try {
-            if(listActivity.size()==0 || activity==null)
+            if (listActivity.size() == 0 || activity == null)
                 return;
-            if(listActivity.contains(activity.hashCode()+"")){
-                listActivity.remove(activity.hashCode()+"");
+            if (listActivity.contains(activity.hashCode() + "")) {
+                listActivity.remove(activity.hashCode() + "");
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    private boolean isInIgnoreSkinActivity(View view){
+    private boolean isInIgnoreSkinActivity(View view) {
         try {
-            if(view==null)
+            if (view == null)
                 return false;
             int hashCode = view.getContext().hashCode();
-            if(listActivity.size()>0 && listActivity.contains(hashCode+"")){
+            if (listActivity.size() > 0 && listActivity.contains(hashCode + "")) {
                 return true;
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return false;
@@ -389,7 +390,7 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
     public void registerIgnoreSkinView(View view) {
         try {
             holderMap.remove(view);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
@@ -414,8 +415,6 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         }
     }
 
-
-
     /**
      * @param attrName       color , background
      * @param attrValueRefId a int value ,  such as  R.color.red
@@ -426,11 +425,17 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
             LogUtils.d(sTAG, "SkinManger is not ready ! cannot createMutableAttr ");
             return null;
         }
-        String attrValueRefName = AndroidSkin.getInstance().getAndroidSkinManager().getAndroidSkinResources().getResourceEntryName(attrValueRefId);
-        String typeName = AndroidSkin.getInstance().getAndroidSkinManager().getAndroidSkinResources().getResourceTypeName(attrValueRefId);
-        return MutableAttrFactory.create(attrName, attrValueRefId, attrValueRefName, typeName);
+        String attrValueRefName =
+            AndroidSkin.getInstance()
+                .getAndroidSkinManager()
+                .getAndroidSkinResources()
+                .getResourceEntryName(attrValueRefId);
+        String typeName =
+            AndroidSkin.getInstance()
+                .getAndroidSkinManager()
+                .getAndroidSkinResources()
+                .getResourceTypeName(attrValueRefId);
+        return MutableAttrFactory.create(attrName, attrValueRefId, attrValueRefName, typeName,
+            MutableAttrManager.getInstance());
     }
-
-
-
 }

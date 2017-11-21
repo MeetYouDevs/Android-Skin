@@ -16,5 +16,6 @@ public class MyApp extends Application {
         super.onCreate();
         //SpInstance.getInstance().init(getApplicationContext(),"skin_sp_file",false);
         AndroidSkin.getInstance().init(this);
+        AndroidSkin.getInstance().addCustomAttrSupport("tv_border_color",TestViewBorderAttr.class);
     }
 }

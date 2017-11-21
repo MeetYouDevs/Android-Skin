@@ -4,8 +4,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@color/colour_c"
+    android:orientation="vertical"
 
     >
 
@@ -31,38 +31,47 @@
         android:orientation="vertical"
         android:padding="15dip"
         >
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dip"
+            android:background="@color/colour_b"
+            android:onClick="onSkinChange"
             android:text="选择皮肤"
             android:textColor="@color/white_a"
-            android:onClick="onSkinChange"
-            android:background="@color/colour_b"
-            android:layout_marginBottom="30dip"
             />
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
             android:background="@drawable/search_background"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="15dip"
             >
+
             <TextView
-                android:text="look me,i will change:"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:background="@color/red_c"
+                android:text="look me,i will change:"
                 />
 
             <ImageView
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:src="@drawable/apk_all_bottommeetyou"
                 />
         </LinearLayout>
+
+        <com.meiyou.androidskin.TestView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="i am a custom view"
+            app:tv_border_color="@color/cust_color"/>
 
     </LinearLayout>
 

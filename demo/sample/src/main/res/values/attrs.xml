@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- 热词 -->
+    <declare-styleable name="TestView">
+        <attr name="tv_border_color" format="color|reference"/>
+        <attr name="tv_border_width" format="dimension|reference"/>
+    </declare-styleable>
+
+
+</resources>
