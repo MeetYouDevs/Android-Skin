@@ -60,7 +60,7 @@ public abstract class MutableAttr {
 
     abstract public void apply(View view);
 
-    public static boolean support(String attrName, MutableAttrManager mutableAttrManager) {
+    public static boolean support(String attrName) {
         if (attrName == null)
             return false;
         for (MutableAttr.TYPE type : MutableAttr.TYPE.values()) {
@@ -69,9 +69,6 @@ public abstract class MutableAttr {
             }
         }
         // 判断自定义属性
-        if (mutableAttrManager != null && mutableAttrManager.isAttrSupport(attrName)) {
-            return true;
-        }
-        return false;
+        return MutableAttrManager.getInstance().isAttrSupport(attrName);
     }
 }

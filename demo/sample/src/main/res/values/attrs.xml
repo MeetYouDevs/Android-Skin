@@ -5,6 +5,7 @@
     <declare-styleable name="TestView">
         <attr name="tv_border_color" format="color|reference"/>
         <attr name="tv_border_width" format="dimension|reference"/>
+        <attr name="tv_drawable_left_and_right" format="reference"/>
     </declare-styleable>
 
 

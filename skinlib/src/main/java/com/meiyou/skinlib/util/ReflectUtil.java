@@ -112,7 +112,7 @@ public class ReflectUtil {
                 // hint_foreground_light hint_foreground_material_light ,bright_foreground_disabled_material_light
                 continue;
             String typeName = context.getResources().getResourceTypeName(resId);
-            MutableAttr mutableAttr = MutableAttrFactory.create(attrName, resId, entryName, typeName, null);
+            MutableAttr mutableAttr = MutableAttrFactory.create(attrName, resId, entryName, typeName);
             if (mutableAttr != null) {
                 viewAttrs.add(mutableAttr);
             }

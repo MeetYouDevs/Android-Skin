@@ -1,4 +1,4 @@
-<resources>
+<resources >
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -20,13 +20,16 @@
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-       <!-- <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:windowBackground">@color/background</item>-->
+        <!-- <item name="colorPrimary">@color/colorPrimary</item>
+         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+         <item name="colorAccent">@color/colorAccent</item>
+         <item name="android:textColorPrimary">@color/textColorPrimary</item>
+         <item name="android:windowBackground">@color/background</item>-->
     </style>
 
+    <style name="TestViewStyle">
+        <item name="com.meiyou.androidskin:tv_border_color">@color/cust_color</item>
+    </style>
 
 
 </resources>

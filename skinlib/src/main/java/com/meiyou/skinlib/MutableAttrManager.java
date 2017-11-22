@@ -3,9 +3,12 @@ package com.meiyou.skinlib;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.support.annotation.NonNull;
 
+import com.meiyou.skinlib.attr.ICustAttrApplyForColorListener;
+import com.meiyou.skinlib.attr.ICustAttrApplyForDrawableListener;
 import com.meiyou.skinlib.attr.MutableAttr;
 import com.meiyou.skinlib.util.LogUtils;
 
@@ -18,14 +21,16 @@ public class MutableAttrManager {
     private static final String sTAG = "MutableAttrManager";
     private static MutableAttrManager mInstance;
     private List<String> mCustomAttrList;
-    private HashMap<String, Class<? extends MutableAttr>> mCustomMutableAttrClassMap;
+    private Map<String, ICustAttrApplyForColorListener> mColorListenerMap;
+    private Map<String, ICustAttrApplyForDrawableListener> mDrawablerListenerMap;
 
     public MutableAttrManager() {
         mCustomAttrList = new ArrayList<>();
-        mCustomMutableAttrClassMap = new HashMap<>();
+        mColorListenerMap = new HashMap<>();
+        mDrawablerListenerMap = new HashMap<>();
     }
 
-    static MutableAttrManager getInstance() {
+    public static MutableAttrManager getInstance() {
         if (mInstance == null) {
             synchronized (MutableAttrManager.class) {
                 if (mInstance == null)
@@ -36,21 +41,37 @@ public class MutableAttrManager {
     }
 
     /**
-     * 增加一个自定义属性    
+     * 增加一个自定义属性,并接受颜色改变的监听回调 
      * @param attrName
-     * @param mutableAttrClass
+     * @param colorListener
      */
-    public void addCustomAttr(@NonNull String attrName, @NonNull Class<? extends MutableAttr> mutableAttrClass) {
-        if (!mCustomAttrList.contains(attrName) && !mCustomMutableAttrClassMap.containsKey(attrName)) {
+    public void addCustomAttr(@NonNull String attrName,
+        @NonNull ICustAttrApplyForColorListener colorListener) {
+        if (!mCustomAttrList.contains(attrName) && !mColorListenerMap.containsKey(attrName)) {
             mCustomAttrList.add(attrName);
-            mCustomMutableAttrClassMap.put(attrName, mutableAttrClass);
+            mColorListenerMap.put(attrName, colorListener);
         } else {
-            LogUtils.d(sTAG, "add a customAttr:" + attrName + " which is already added");
+            LogUtils.d(sTAG, "add a customAttr:" + attrName + " for apply color which is already added");
         }
     }
 
     /**
-     * 属性是否支持，要支持，需要先{@link #addCustomAttr(String, Class)}
+     * 增加一个自定义属性,并接受drawable改变的监听回调 
+     * @param attrName
+     * @param drawableListener
+     */
+    public void addCustomAttr(@NonNull String attrName,
+        @NonNull ICustAttrApplyForDrawableListener drawableListener) {
+        if (!mCustomAttrList.contains(attrName) && !mDrawablerListenerMap.containsKey(attrName)) {
+            mCustomAttrList.add(attrName);
+            mDrawablerListenerMap.put(attrName, drawableListener);
+        } else {
+            LogUtils.d(sTAG, "add a customAttr:" + attrName + " for apply drawable which is already added");
+        }
+    }
+
+    /**
+     * 属性是否支持，要支持，需要先{@link #addCustomAttr(String, ICustAttrApplyForColorListener)} (String, Class)}或者{@link #addCustomAttr(String, ICustAttrApplyForDrawableListener)}
      * @param attr
      * @return
      */
@@ -59,15 +80,28 @@ public class MutableAttrManager {
     }
 
     /**
-     *  获取属性对应的MutableAttr
+     *  获取属性对应的监听
      * @param attr
      * @return
      */
-    public Class<? extends MutableAttr> getMutableAttrByAttr(@NonNull String attr) {
-        Class<? extends MutableAttr> mutableAttr = mCustomMutableAttrClassMap.get(attr);
-        if (mutableAttr == null) {
-            LogUtils.d(sTAG, "try to get MutableAttr by attr:" + attr + ",but it do not add before");
+    public ICustAttrApplyForColorListener getApplyColorListener(@NonNull String attr) {
+        ICustAttrApplyForColorListener custAttrApplyForColorListener = mColorListenerMap.get(attr);
+        if (custAttrApplyForColorListener == null) {
+            LogUtils.d(sTAG, "try to get color listener by attr:" + attr + ",but it do not add before");
         }
-        return mutableAttr;
+        return custAttrApplyForColorListener;
+    }
+
+    /**
+     *  获取属性对应的监听
+     * @param attr
+     * @return
+     */
+    public ICustAttrApplyForDrawableListener getApplyDrawableListener(@NonNull String attr) {
+        ICustAttrApplyForDrawableListener custAttrApplyForDrawableListener = mDrawablerListenerMap.get(attr);
+        if (custAttrApplyForDrawableListener == null) {
+            LogUtils.d(sTAG, "try to get drawable listener by attr:" + attr + ",but it do not add before");
+        }
+        return custAttrApplyForDrawableListener;
     }
 }
