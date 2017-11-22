@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.meiyou.skinlib.attr.ICustAttrApplyForColorListener;
+import com.meiyou.skinlib.attr.ICustAttrApplyForDrawableListener;
 import com.meiyou.skinlib.attr.MutableAttr;
 import com.meiyou.skinlib.loader.AbstractSkinPathLoader;
 import com.meiyou.skinlib.loader.AndroidSkinPathLoader;
@@ -305,10 +307,21 @@ public class AndroidSkin implements IAndroidSkin {
     /**
      * 增加自定义属性支持（即将修改）
      * @param attr 属性名，如：tv_border_color
-     * @param mutableAttrClass 继承实现MutableAttr的类
+     * @param colorListener 当皮肤切换时的回调，回调里包含需要替换的color值
      */
-    @Deprecated
-    public void addCustomAttrSupport(@NonNull String attr, @NonNull Class<? extends MutableAttr> mutableAttrClass) {
-        MutableAttrManager.getInstance().addCustomAttr(attr, mutableAttrClass);
+    public void addCustomAttrSupport(@NonNull String attr,
+        @NonNull ICustAttrApplyForColorListener colorListener) {
+        MutableAttrManager.getInstance().addCustomAttr(attr, colorListener);
+    }
+
+    /**
+     * 增加自定义属性支持
+     * @param attr 属性名，如：tv_border_color
+     * @param drawableListener 当皮肤切换时的回调，回调里包含需要替换的drawable值
+     */
+    public void addCustomAttrSupport(@NonNull String attr,
+        @NonNull ICustAttrApplyForDrawableListener drawableListener) {
+        MutableAttrManager.getInstance().addCustomAttr(attr, drawableListener);
+
     }
 }

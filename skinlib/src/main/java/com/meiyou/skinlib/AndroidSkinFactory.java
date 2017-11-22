@@ -99,7 +99,7 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
         for (int i = 0; i < attrs.getAttributeCount(); i++) {
             String attrName = attrs.getAttributeName(i);
             String attrValue = attrs.getAttributeValue(i);
-            if (!MutableAttr.support(attrName, MutableAttrManager.getInstance())) {
+            if (!MutableAttr.support(attrName)) {
                 continue;
             }
 
@@ -118,9 +118,7 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
                         }
                         String entryName = context.getResources().getResourceEntryName(id);
                         String typeName = context.getResources().getResourceTypeName(id);
-                        MutableAttr mutableAttr =
-                            MutableAttrFactory.create(attrName, id, entryName, typeName,
-                                MutableAttrManager.getInstance());
+                        MutableAttr mutableAttr = MutableAttrFactory.create(attrName, id, entryName, typeName);
                         if (mutableAttr != null) {
                             viewAttrs.add(mutableAttr);
                         }
@@ -435,7 +433,6 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
                 .getAndroidSkinManager()
                 .getAndroidSkinResources()
                 .getResourceTypeName(attrValueRefId);
-        return MutableAttrFactory.create(attrName, attrValueRefId, attrValueRefName, typeName,
-            MutableAttrManager.getInstance());
+        return MutableAttrFactory.create(attrName, attrValueRefId, attrValueRefName, typeName);
     }
 }

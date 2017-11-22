@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
 import com.meiyou.skinlib.MutableAttrManager;
+import com.meiyou.skinlib.util.LogUtils;
 
 /**
  * Author: meetyou
@@ -11,8 +12,9 @@ import com.meiyou.skinlib.MutableAttrManager;
  */
 
 public class MutableAttrFactory {
-    public static MutableAttr create(String attrName, int attrValueRefId, String attrValueRefName, String typeName,
-                                     MutableAttrManager mutableAttrManager) {
+    private static final String sTAG = "MutableAttrFactory";
+
+    public static MutableAttr create(String attrName, int attrValueRefId, String attrValueRefName, String typeName) {
         // LogUtils.d("MutableAttrFactory",attrName);
         MutableAttr.TYPE type = genType(attrName);
         if (type != null) {
@@ -32,21 +34,9 @@ public class MutableAttrFactory {
                         typeName);
             }
         }
-        if (mutableAttrManager != null) {
-            Class<? extends MutableAttr> mutableAttrClass = mutableAttrManager.getMutableAttrByAttr(attrName);
-            try {
-                Constructor<? extends MutableAttr> constructor =
-                    mutableAttrClass.getConstructor(String.class, int.class, String.class, String.class);
-                return constructor.newInstance(attrName, attrValueRefId, attrValueRefName, typeName);
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InstantiationException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
+        // 自定义属性
+        if (MutableAttr.support(attrName)) {
+            return new CustomAttr(attrName, attrValueRefId, attrValueRefName, typeName);
         }
         return null;
     }
