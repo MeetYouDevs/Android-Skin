@@ -2,27 +2,22 @@ package com.meiyou.skinlib.attr;
 
 import android.view.View;
 
+import com.meiyou.skinlib.MutableAttrManager;
+
 /**
  * Author: meetyou
  * Date: 17/11/10 09:57.
  */
 
 public abstract class MutableAttr {
-    protected static final String TAG="MutableAttr";
+    protected static final String TAG = "MutableAttr";
     public static final String RES_TYPE_NAME_COLOR = "color";
     public static final String RES_TYPE_NAME_DRAWABLE = "drawable";
 
     public enum TYPE {
-        BACKGROUND("background"),
-        SRC("src"),
-        HINT_TEXT_COLOR("hintTextColor"),
-        TEXT_COLOR("textColor"),
-        STYLE("style"),
-        DRAWABLE_LEFT("drawableLeft"),
-        DRAWABLE_RIGHT("drawableRight"),
-        DRAWABLE_TOP("drawableTop"),
-        DRAWABLE_BOTTOM("drawableBottom"),
-        ;
+        BACKGROUND("background"), SRC("src"), HINT_TEXT_COLOR("hintTextColor"), TEXT_COLOR("textColor"), STYLE("style"), DRAWABLE_LEFT(
+            "drawableLeft"), DRAWABLE_RIGHT("drawableRight"), DRAWABLE_TOP("drawableTop"), DRAWABLE_BOTTOM(
+            "drawableBottom"), ;
         private String realName;
 
         private TYPE(String realName) {
@@ -34,10 +29,7 @@ public abstract class MutableAttr {
         }
     }
 
-
-    public MutableAttr(
-            String attrName, int attrValueRefId,
-            String attrValueRefName, String typeName) {
+    public MutableAttr(String attrName, int attrValueRefId, String attrValueRefName, String typeName) {
         this.attrName = attrName;
         this.attrValueRefId = attrValueRefId;
         this.attrValueRefName = attrValueRefName;
@@ -68,15 +60,17 @@ public abstract class MutableAttr {
 
     abstract public void apply(View view);
 
-
-    public static boolean support(String attrName) {
-        if(attrName==null)
+    public static boolean support(String attrName, MutableAttrManager mutableAttrManager) {
+        if (attrName == null)
             return false;
         for (MutableAttr.TYPE type : MutableAttr.TYPE.values()) {
-            if (type!=null && type.getRealName()!=null && type.getRealName().equals(attrName)) {
+            if (type != null && type.getRealName() != null && type.getRealName().equals(attrName)) {
                 return true;
             }
-
+        }
+        // 判断自定义属性
+        if (mutableAttrManager != null && mutableAttrManager.isAttrSupport(attrName)) {
+            return true;
         }
         return false;
     }

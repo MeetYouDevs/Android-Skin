@@ -106,4 +106,6 @@
     <color name="personal_title_background">#33000000</color>
 
     <color name="black_status_bar">#000000</color>
+
+    <color name="cust_color">@color/all_black</color>
 </resources>

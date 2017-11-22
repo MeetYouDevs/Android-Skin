@@ -1,5 +1,8 @@
 package com.meiyou.skinlib;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -8,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.ImageView;
@@ -20,22 +24,20 @@ import com.meiyou.skinlib.loader.SkinLoader;
 import com.meiyou.skinlib.manager.AndroidSkinManager;
 import com.meiyou.skinlib.util.SkinStringUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-public class AndroidSkin implements IAndroidSkin{
-
+public class AndroidSkin implements IAndroidSkin {
 
     private Context mContext;
     private AndroidSkinManager mAndroidSkinManager;
     private boolean isInited = false;
+
     public static AndroidSkin getInstance() {
         return Holder.instance;
     }
+
     static class Holder {
         static AndroidSkin instance = new AndroidSkin();
     }
+
     private AndroidSkin() {
     }
 
@@ -45,7 +47,7 @@ public class AndroidSkin implements IAndroidSkin{
      * @param application
      */
     public void init(Application application) {
-        init(application,true);
+        init(application, true);
     }
 
     /**
@@ -53,42 +55,42 @@ public class AndroidSkin implements IAndroidSkin{
      * @param application
      * @param isApplyImmediate 是否立刻生效
      */
-    public void init(Application application,boolean isApplyImmediate) {
-        if(application==null)
+    public void init(Application application, boolean isApplyImmediate) {
+        if (application == null)
             return;
         isInited = true;
         mContext = application.getApplicationContext();
         mAndroidSkinManager = new AndroidSkinManager(application.getApplicationContext());
-        if(isApplyImmediate)
+        if (isApplyImmediate)
             mAndroidSkinManager.loadSkinIfApply();
         AndroidSkinHook.getInstance().registerActivityLife(application);
     }
 
     @Override
     public void saveSkin(String skinFilePath) {
-        saveSkin(skinFilePath,SkinLoader.SDCARD);
+        saveSkin(skinFilePath, SkinLoader.SDCARD);
 
     }
 
     @Override
     public void saveSkin(String skinFilePath, SkinLoader skinLoader) {
         AndroidSkinPathLoader loader = new AndroidSkinPathLoader(mContext);
-        final AbstractSkinPathLoader loaderSkinPathLoader = loader.getSkinPathLoader(skinFilePath,SkinLoader.SDCARD);
-        new LoadSkinTask(loaderSkinPathLoader,null).execute();
+        final AbstractSkinPathLoader loaderSkinPathLoader = loader.getSkinPathLoader(skinFilePath, SkinLoader.SDCARD);
+        new LoadSkinTask(loaderSkinPathLoader, null).execute();
     }
 
     @Override
-    public void saveSkinAndApply(String skinFilePath,SkinListener listener) {
-        saveSkinAndApply(skinFilePath,SkinLoader.SDCARD,listener);
+    public void saveSkinAndApply(String skinFilePath, SkinListener listener) {
+        saveSkinAndApply(skinFilePath, SkinLoader.SDCARD, listener);
     }
 
     @Override
-    public void saveSkinAndApply(String skinFilePath, SkinLoader skinLoader,SkinListener listener) {
-        if(skinLoader==null || skinFilePath==null)
+    public void saveSkinAndApply(String skinFilePath, SkinLoader skinLoader, SkinListener listener) {
+        if (skinLoader == null || skinFilePath == null)
             return;
         AndroidSkinPathLoader loader = new AndroidSkinPathLoader(mContext);
-        final AbstractSkinPathLoader loaderSkinPathLoader = loader.getSkinPathLoader(skinFilePath,skinLoader);
-        new LoadSkinTask(loaderSkinPathLoader,listener).execute();
+        final AbstractSkinPathLoader loaderSkinPathLoader = loader.getSkinPathLoader(skinFilePath, skinLoader);
+        new LoadSkinTask(loaderSkinPathLoader, listener).execute();
 
     }
 
@@ -120,8 +122,6 @@ public class AndroidSkin implements IAndroidSkin{
         return getSkinDrawable(null, null, originId);
     }
 
-
-
     @Override
     public int getSkinColor(int originId) {
         return getSkinColor(null, null, originId);
@@ -129,7 +129,7 @@ public class AndroidSkin implements IAndroidSkin{
 
     @Override
     public ColorStateList getSkinColorStateList(int originId) {
-        return getSkinColorStateList(null,null,originId);
+        return getSkinColorStateList(null, null, originId);
     }
 
     @Override
@@ -137,19 +137,18 @@ public class AndroidSkin implements IAndroidSkin{
         return mAndroidSkinManager.isSkinApply();
     }
 
-
     @Nullable
     public ColorStateList getSkinColorStateList(String type, String entryName, int originId) {
-        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(type,entryName,originId);
-        if(newId>0){
+        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(type, entryName, originId);
+        if (newId > 0) {
             return mAndroidSkinManager.getAndroidSkinResources().getColorStateList(newId);
         }
         return null;
     }
 
     public Drawable getSkinDrawable(String type, String entryName, int originId) {
-        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(type,entryName,originId);
-        if(newId>0){
+        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(type, entryName, originId);
+        if (newId > 0) {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 return mAndroidSkinManager.getAndroidSkinResources().getDrawable(newId);
             } else {
@@ -158,18 +157,20 @@ public class AndroidSkin implements IAndroidSkin{
         }
         return null;
     }
+
     public int getSkinId(String type, String entryName, int originId) {
-        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(type,entryName,originId);
+        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(type, entryName, originId);
         return newId;
     }
 
-    public int getSkinId( int originId) {
-        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(null,null,originId);
+    public int getSkinId(int originId) {
+        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(null, null, originId);
         return newId;
     }
+
     public int getSkinColor(String type, String entryName, int originId) {
-        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(type,entryName,originId);
-        if(newId>0){
+        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinId(type, entryName, originId);
+        if (newId > 0) {
             return mAndroidSkinManager.getAndroidSkinResources().getColor(newId);
         }
         return -1;
@@ -177,19 +178,17 @@ public class AndroidSkin implements IAndroidSkin{
 
     @Override
     public Drawable getSkinColorDrawable(int originId) {
-        return getSkinColorDrawable(null,null,originId);
+        return getSkinColorDrawable(null, null, originId);
     }
 
     private ColorDrawable getSkinColorDrawable(String type, String entryName, int originId) {
-        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinColorId(type,entryName,originId);
-        if(newId>0){
+        int newId = mAndroidSkinManager.getAndroidSkinResources().obtainSkinColorId(type, entryName, originId);
+        if (newId > 0) {
             return new ColorDrawable(newId);
-            //return mAndroidSkinManager.getAndroidSkinResources().getColor(newId);
+            // return mAndroidSkinManager.getAndroidSkinResources().getColor(newId);
         }
         return null;
     }
-
-
 
     public AndroidSkin setBackgroundDrawable(View view, int resId) {
         try {
@@ -199,7 +198,7 @@ public class AndroidSkin implements IAndroidSkin{
                 view.setBackgroundDrawable(AndroidSkin.getInstance().getSkinDrawable(resId));
             }
             addMutableAttrs(view, MutableAttr.TYPE.BACKGROUND.getRealName(), resId);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return this;
@@ -209,7 +208,7 @@ public class AndroidSkin implements IAndroidSkin{
         try {
             view.setImageDrawable(AndroidSkin.getInstance().getSkinDrawable(resId));
             addMutableAttrs(view, MutableAttr.TYPE.SRC.getRealName(), resId);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return this;
@@ -219,7 +218,7 @@ public class AndroidSkin implements IAndroidSkin{
         try {
             view.setTextColor(AndroidSkin.getInstance().getSkinColor(colorId));
             addMutableAttrs(view, MutableAttr.TYPE.TEXT_COLOR.getRealName(), colorId);
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return this;
@@ -237,16 +236,19 @@ public class AndroidSkin implements IAndroidSkin{
         AndroidSkinFactory.from(activity.getApplicationContext()).registerIgnoreSkinActivity(activity);
         return this;
     }
+
     public AndroidSkin unRegisterIgnoreSkinActivity(Activity activity) {
         AndroidSkinFactory.from(activity.getApplicationContext()).registerIgnoreSkinActivity(activity);
         return this;
     }
+
     public AndroidSkin registerIgnoreSkinView(View view) {
         AndroidSkinFactory.from(view.getContext()).registerIgnoreSkinView(view);
         return this;
     }
-    public AndroidSkin registerIgnoreSkinViewAttrs(View view, String...attrs) {
-        AndroidSkinFactory.from(view.getContext()).registerIgnoreSkinViewAttrs(view,attrs);
+
+    public AndroidSkin registerIgnoreSkinViewAttrs(View view, String... attrs) {
+        AndroidSkinFactory.from(view.getContext()).registerIgnoreSkinViewAttrs(view, attrs);
         return this;
     }
 
@@ -258,12 +260,11 @@ public class AndroidSkin implements IAndroidSkin{
         return mAndroidSkinManager;
     }
 
-
     private class LoadSkinTask extends AsyncTask<String, Void, String> {
         private final AbstractSkinPathLoader mAbstractSkinPathLoader;
         private final SkinListener mListener;
 
-        LoadSkinTask( AbstractSkinPathLoader loader,  SkinListener listener) {
+        LoadSkinTask(AbstractSkinPathLoader loader, SkinListener listener) {
             mAbstractSkinPathLoader = loader;
             mListener = listener;
         }
@@ -277,19 +278,19 @@ public class AndroidSkin implements IAndroidSkin{
         @Override
         protected String doInBackground(String... params) {
 
-            try{
+            try {
                 String path = mAbstractSkinPathLoader.getSkinPath();
                 String packageName = mAbstractSkinPathLoader.getSkinPackage();
-                mAndroidSkinManager.saveSkinInfo(path,packageName);
+                mAndroidSkinManager.saveSkinInfo(path, packageName);
                 return path;
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
             }
             return null;
         }
 
         protected void onPostExecute(String result) {
-            if(SkinStringUtils.isNull(result)){
+            if (SkinStringUtils.isNull(result)) {
                 AndroidSkin.getInstance().clearSkin();
                 if (mListener != null) {
                     mListener.onFail("换肤失败");
@@ -300,6 +301,13 @@ public class AndroidSkin implements IAndroidSkin{
 
         }
     }
+
+    /**
+     * 增加自定义属性支持
+     * @param attr 属性名，如：tv_border_color
+     * @param mutableAttrClass 继承实现MutableAttr的类
+     */
+    public void addCustomAttrSupport(@NonNull String attr, @NonNull Class<? extends MutableAttr> mutableAttrClass) {
+        MutableAttrManager.getInstance().addCustomAttr(attr, mutableAttrClass);
+    }
 }
-
-

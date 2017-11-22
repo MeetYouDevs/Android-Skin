@@ -1,12 +1,14 @@
 package com.meiyou.skinlib;
 
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.Map;
+
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.content.res.Resources;
 
-import java.lang.reflect.Field;
-import java.util.HashMap;
-import java.util.Map;
+import com.meiyou.skinlib.util.LogUtils;
 
 import dalvik.system.DexClassLoader;
 
@@ -84,6 +86,7 @@ public class AndroidSkinResources extends Resources {
                 mResourceMap.put(key, newId);
             } catch (Exception e) {
                 // nothing
+                LogUtils.d(e.getMessage());
             }
 
         }else{
