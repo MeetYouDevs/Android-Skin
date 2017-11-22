@@ -303,10 +303,11 @@ public class AndroidSkin implements IAndroidSkin {
     }
 
     /**
-     * 增加自定义属性支持
+     * 增加自定义属性支持（即将修改）
      * @param attr 属性名，如：tv_border_color
      * @param mutableAttrClass 继承实现MutableAttr的类
      */
+    @Deprecated
     public void addCustomAttrSupport(@NonNull String attr, @NonNull Class<? extends MutableAttr> mutableAttrClass) {
         MutableAttrManager.getInstance().addCustomAttr(attr, mutableAttrClass);
     }
