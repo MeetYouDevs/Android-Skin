@@ -1,0 +1,26 @@
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+    <data>
+        <variable name="user" type="com.meiyou.androidskin.databinding.User" />
+    </data>
+    <!--原先的根节点（Root Element）-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dip"
+        >
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onTextViewChange"
+            />
+        <com.meiyou.androidskin.databinding.CustomTextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{user.lastName}"
+            android:textColor="@{user.check?@color/red_c:@color/black_i}"
+            />
+    </LinearLayout>
+</layout>

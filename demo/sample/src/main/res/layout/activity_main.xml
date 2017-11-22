@@ -41,7 +41,15 @@
             android:text="选择皮肤"
             android:textColor="@color/white_a"
             />
-
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="DataBinding换肤"
+            android:textColor="@color/white_a"
+            android:onClick="onDatabinding"
+            android:background="@color/colour_b"
+            android:layout_marginBottom="30dip"
+            />
 
         <LinearLayout
             android:layout_width="match_parent"
