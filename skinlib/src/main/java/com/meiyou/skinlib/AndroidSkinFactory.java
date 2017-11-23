@@ -104,7 +104,7 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
             }
 
             if (attrValue.startsWith("@")) {
-                if (attrValue.startsWith("@style/") || attrValue.startsWith("@android:style/")) {
+                if (attrName.equalsIgnoreCase("style") || attrValue.startsWith("@style/") || attrValue.startsWith("@android:style/")) {
                     viewAttrs = ReflectUtil.processStyle(context, view, attrs, attrValue);
                 } else {
                     try {
