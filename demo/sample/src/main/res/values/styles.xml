@@ -27,6 +27,10 @@
         <item name="android:windowBackground">@color/background</item>-->
     </style>
 
-
+    <style name="divider">
+        <item name="android:background">@color/red_c</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">1px</item>
+    </style>
 
 </resources>

@@ -81,6 +81,9 @@
             android:text="i am a custom view"
             app:tv_border_color="@color/cust_color"/>
 
+        <View
+            android:layout_marginTop="10dip"
+            style="@style/divider"/>
     </LinearLayout>
 
 </LinearLayout>
