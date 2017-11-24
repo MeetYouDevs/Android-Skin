@@ -4,7 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 
 import com.meiyou.skinlib.AndroidSkin;
-import com.meiyou.skinlib.MutableAttrManager;
+import com.meiyou.skinlib.CustomAttrManager;
 
 /**
  * Created by yangsq on 2017/11/22.
@@ -20,7 +20,7 @@ public class CustomAttr extends MutableAttr {
         if (RES_TYPE_NAME_COLOR.equals(attrValueTypeName)) {
             // 颜色
             ICustAttrApplyForColorListener colorListener =
-                MutableAttrManager.getInstance().getApplyColorListener(attrName);
+                CustomAttrManager.getInstance().getApplyColorListener(attrName);
             if (colorListener != null) {
                 int color = AndroidSkin.getInstance().getSkinColor(attrValueTypeName, attrValueRefName, attrValueRefId);
                 colorListener.applyColor(attrName, view, color);
@@ -29,7 +29,7 @@ public class CustomAttr extends MutableAttr {
         } else if (RES_TYPE_NAME_DRAWABLE.equals(attrValueTypeName)) {
             // drawable
             ICustAttrApplyForDrawableListener drawableListener =
-                MutableAttrManager.getInstance().getApplyDrawableListener(attrName);
+                CustomAttrManager.getInstance().getApplyDrawableListener(attrName);
             if (drawableListener != null) {
                 Drawable drawable =
                     AndroidSkin.getInstance().getSkinDrawable(attrValueTypeName, attrValueRefName, attrValueRefId);

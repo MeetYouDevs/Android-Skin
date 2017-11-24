@@ -305,13 +305,13 @@ public class AndroidSkin implements IAndroidSkin {
     }
 
     /**
-     * 增加自定义属性支持（即将修改）
+     * 增加自定义属性支持
      * @param attr 属性名，如：tv_border_color
      * @param colorListener 当皮肤切换时的回调，回调里包含需要替换的color值
      */
     public void addCustomAttrSupport(@NonNull String attr,
         @NonNull ICustAttrApplyForColorListener colorListener) {
-        MutableAttrManager.getInstance().addCustomAttr(attr, colorListener);
+        CustomAttrManager.getInstance().addCustomAttr(attr, colorListener);
     }
 
     /**
@@ -321,7 +321,6 @@ public class AndroidSkin implements IAndroidSkin {
      */
     public void addCustomAttrSupport(@NonNull String attr,
         @NonNull ICustAttrApplyForDrawableListener drawableListener) {
-        MutableAttrManager.getInstance().addCustomAttr(attr, drawableListener);
-
+        CustomAttrManager.getInstance().addCustomAttr(attr, drawableListener);
     }
 }

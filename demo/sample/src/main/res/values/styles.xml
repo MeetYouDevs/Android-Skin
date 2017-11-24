@@ -28,7 +28,10 @@
     </style>
 
     <style name="TestViewStyle">
-        <item name="com.meiyou.androidskin:tv_border_color">@color/cust_color</item>
+        <item name="android:textColor">@color/cust_color</item>
+        <item name="android:background">@color/white_a</item>
+        <item name="android:textColorHint">@color/red_a</item>
+
     </style>
 
 

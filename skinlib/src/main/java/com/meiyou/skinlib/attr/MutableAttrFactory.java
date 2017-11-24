@@ -1,10 +1,9 @@
 package com.meiyou.skinlib.attr;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
+import android.content.Context;
+import android.support.annotation.NonNull;
 
-import com.meiyou.skinlib.MutableAttrManager;
-import com.meiyou.skinlib.util.LogUtils;
+import com.meiyou.skinlib.CustomAttrManager;
 
 /**
  * Author: meetyou
@@ -15,24 +14,41 @@ public class MutableAttrFactory {
     private static final String sTAG = "MutableAttrFactory";
 
     public static MutableAttr create(String attrName, int attrValueRefId, String attrValueRefName, String typeName) {
-        // LogUtils.d("MutableAttrFactory",attrName);
         MutableAttr.TYPE type = genType(attrName);
-        if (type != null) {
-            switch (type) {
-                case BACKGROUND:
-                    return new BackgroundAttr(attrName, attrValueRefId, attrValueRefName, typeName);
-                case TEXT_COLOR:
-                case HINT_TEXT_COLOR:
-                    return new TextColorAttr(attrName, attrValueRefId, attrValueRefName, typeName);
-                case SRC:
-                    return new ImageSrcAttr(attrName, attrValueRefId, attrValueRefName, typeName);
-                case DRAWABLE_LEFT:
-                case DRAWABLE_TOP:
-                case DRAWABLE_RIGHT:
-                case DRAWABLE_BOTTOM:
-                    return new DrawableLRTBAttr(type.getRealName(), attrName, attrValueRefId, attrValueRefName,
-                        typeName);
-            }
+        if (type == null) {
+            return null;
+        }
+        return create(type, attrValueRefId, attrValueRefName, typeName);
+    }
+
+    public static MutableAttr create(Context context, @NonNull MutableAttr.TYPE type, int attrValueRefId) {
+        String entryName = context.getResources().getResourceEntryName(attrValueRefId);
+        // 防止被Theme.Light的颜色覆盖,导致换肤失败
+        if (entryName != null
+                && (entryName.equals("hint_foreground_light")
+                || entryName.equals("bright_foreground_disabled_material_light") || entryName.contains("_foreground_") || entryName.contains("_material_"))) {
+            return null;
+        }
+        String typeName = context.getResources().getResourceTypeName(attrValueRefId);
+        return create(type, attrValueRefId, entryName, typeName);
+    }
+
+    private static MutableAttr create(@NonNull MutableAttr.TYPE type, int attrValueRefId, String attrValueRefName,
+        String typeName) {
+        String attrName = type.getRealName();
+        switch (type) {
+            case BACKGROUND:
+                return new BackgroundAttr(attrName, attrValueRefId, attrValueRefName, typeName);
+            case TEXT_COLOR:
+            case HINT_TEXT_COLOR:
+                return new TextColorAttr(attrName, attrValueRefId, attrValueRefName, typeName);
+            case SRC:
+                return new ImageSrcAttr(attrName, attrValueRefId, attrValueRefName, typeName);
+            case DRAWABLE_LEFT:
+            case DRAWABLE_TOP:
+            case DRAWABLE_RIGHT:
+            case DRAWABLE_BOTTOM:
+                return new DrawableLRTBAttr(type.getRealName(), attrName, attrValueRefId, attrValueRefName, typeName);
         }
         // 自定义属性
         if (MutableAttr.support(attrName)) {

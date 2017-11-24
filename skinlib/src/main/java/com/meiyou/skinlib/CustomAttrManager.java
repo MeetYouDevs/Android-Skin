@@ -9,44 +9,43 @@ import android.support.annotation.NonNull;
 
 import com.meiyou.skinlib.attr.ICustAttrApplyForColorListener;
 import com.meiyou.skinlib.attr.ICustAttrApplyForDrawableListener;
-import com.meiyou.skinlib.attr.MutableAttr;
 import com.meiyou.skinlib.util.LogUtils;
 
 /**
- * 自定义MutableAttr的管理类
+ * 属性的管理类
  * Created by yangsq on 2017/11/21.
  */
 
-public class MutableAttrManager {
+public class CustomAttrManager {
     private static final String sTAG = "MutableAttrManager";
-    private static MutableAttrManager mInstance;
+    private static CustomAttrManager mInstance;
     private List<String> mCustomAttrList;
     private Map<String, ICustAttrApplyForColorListener> mColorListenerMap;
     private Map<String, ICustAttrApplyForDrawableListener> mDrawablerListenerMap;
 
-    public MutableAttrManager() {
+    public CustomAttrManager() {
         mCustomAttrList = new ArrayList<>();
         mColorListenerMap = new HashMap<>();
         mDrawablerListenerMap = new HashMap<>();
     }
 
-    public static MutableAttrManager getInstance() {
+    public static CustomAttrManager getInstance() {
         if (mInstance == null) {
-            synchronized (MutableAttrManager.class) {
+            synchronized (CustomAttrManager.class) {
                 if (mInstance == null)
-                    mInstance = new MutableAttrManager();
+                    mInstance = new CustomAttrManager();
             }
         }
         return mInstance;
     }
 
     /**
-     * 增加一个自定义属性,并接受颜色改变的监听回调 
+     * 增加一个自定义属性,并接受颜色改变的监听回调
      * @param attrName
      * @param colorListener
      */
     public void addCustomAttr(@NonNull String attrName,
-        @NonNull ICustAttrApplyForColorListener colorListener) {
+                              @NonNull ICustAttrApplyForColorListener colorListener) {
         if (!mCustomAttrList.contains(attrName) && !mColorListenerMap.containsKey(attrName)) {
             mCustomAttrList.add(attrName);
             mColorListenerMap.put(attrName, colorListener);
@@ -56,12 +55,12 @@ public class MutableAttrManager {
     }
 
     /**
-     * 增加一个自定义属性,并接受drawable改变的监听回调 
+     * 增加一个自定义属性,并接受drawable改变的监听回调
      * @param attrName
      * @param drawableListener
      */
     public void addCustomAttr(@NonNull String attrName,
-        @NonNull ICustAttrApplyForDrawableListener drawableListener) {
+                              @NonNull ICustAttrApplyForDrawableListener drawableListener) {
         if (!mCustomAttrList.contains(attrName) && !mDrawablerListenerMap.containsKey(attrName)) {
             mCustomAttrList.add(attrName);
             mDrawablerListenerMap.put(attrName, drawableListener);

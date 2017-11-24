@@ -10,7 +10,6 @@ public class StyleAttr extends MutableAttr {
 
     public StyleAttr(String attrName, int attrValueRefId, String attrValueRefName, String typeName) {
         super(attrName, attrValueRefId, attrValueRefName, typeName);
-        this.type = TYPE.STYLE;
 
     }
 

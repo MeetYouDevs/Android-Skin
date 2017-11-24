@@ -2,7 +2,7 @@ package com.meiyou.skinlib.attr;
 
 import android.view.View;
 
-import com.meiyou.skinlib.MutableAttrManager;
+import com.meiyou.skinlib.CustomAttrManager;
 
 /**
  * Author: meetyou
@@ -15,7 +15,7 @@ public abstract class MutableAttr {
     public static final String RES_TYPE_NAME_DRAWABLE = "drawable";
 
     public enum TYPE {
-        BACKGROUND("background"), SRC("src"), HINT_TEXT_COLOR("hintTextColor"), TEXT_COLOR("textColor"), STYLE("style"), DRAWABLE_LEFT(
+        BACKGROUND("background"), SRC("src"), HINT_TEXT_COLOR("textColorHint"), TEXT_COLOR("textColor"), DRAWABLE_LEFT(
             "drawableLeft"), DRAWABLE_RIGHT("drawableRight"), DRAWABLE_TOP("drawableTop"), DRAWABLE_BOTTOM(
             "drawableBottom"), ;
         private String realName;
@@ -69,6 +69,6 @@ public abstract class MutableAttr {
             }
         }
         // 判断自定义属性
-        return MutableAttrManager.getInstance().isAttrSupport(attrName);
+        return CustomAttrManager.getInstance().isAttrSupport(attrName);
     }
 }

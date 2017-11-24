@@ -1,6 +1,7 @@
 package com.meiyou.skinlib.util;
 
 import android.content.Context;
+import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
@@ -19,23 +20,21 @@ public class ReflectUtil {
 
     static String rStyleClazzName = "com.android.internal.R$styleable";
     static Class clazz;
-    static Field fieldView;
-    static Field fieldTextView;
-    static Field fieldImageView;
-    static Field fieldBg;
-    static Field fieldColor;
-    static Field fieldHintColor;
-    static int bg;
-    static int[] attributes;
-    static int[] attributesTv;
-    static int[] attributesIv;
-    static int color;
-    static int hintColor;
-    static Field fieldSrc;
-    static int ivSrc;
 
     // static Field header;
     // static Field footer;
+    // 支持的原生控件
+    final static String[] supportAndroidWidget = new String[] {"View", "TextView", "ImageView"};
+    // 支持的原生属性，必须按照生成的attrId顺序排列
+    final static String[] supportAndroidAttrs = new String[] {"TextView_textColor", "TextView_textColorHint",
+        "View_background", "ImageView_src"};
+    /**
+     * 支持属性对应可识别的attrName，需要用枚举里的realName，并且顺序与supportAndroidAttrs一致
+     */
+    final static String[] supportAndroidAttrsRealName = new String[] {MutableAttr.TYPE.TEXT_COLOR.getRealName(),
+        MutableAttr.TYPE.HINT_TEXT_COLOR.getRealName(), MutableAttr.TYPE.BACKGROUND.getRealName(),
+        MutableAttr.TYPE.SRC.getRealName()};
+    final static int[] supportAndroidAttrIds = new int[supportAndroidAttrs.length];
 
     public static List<MutableAttr> processStyle(Context context, View view, AttributeSet attrs, String attrValue) {
         List<MutableAttr> viewAttrs = new ArrayList<>();
@@ -44,30 +43,38 @@ public class ReflectUtil {
 
             if (clazz == null) {
                 clazz = Class.forName(rStyleClazzName);
-                fieldView = clazz.getDeclaredField("View");
-                fieldTextView = clazz.getDeclaredField("TextView");
-                fieldImageView = clazz.getDeclaredField("ImageView");
-                fieldBg = clazz.getDeclaredField("View_background");
-                fieldColor = clazz.getDeclaredField("TextView_textColor");
-                fieldHintColor = clazz.getDeclaredField("TextView_textColorHint");
-                fieldSrc = clazz.getDeclaredField("ImageView_src");
-
-                bg = fieldBg.getInt(null);
-                attributes = (int[]) fieldView.get(null);
-                attributesTv = (int[]) fieldTextView.get(null);
-                attributesIv = (int[]) fieldImageView.get(null);
-                color = fieldColor.getInt(null);
-                hintColor = fieldHintColor.getInt(null);
-                ivSrc = fieldSrc.getInt(null);
+                Field[] widgetField = new Field[supportAndroidWidget.length];
+                for (int i = 0; i < supportAndroidWidget.length; i++) {
+                    widgetField[i] = clazz.getDeclaredField(supportAndroidWidget[i]);
+                }
+                for (int i = 0; i < supportAndroidAttrs.length; i++) {
+                    Field attrField = clazz.getDeclaredField(supportAndroidAttrs[i]);
+                    int index = attrField.getInt(null);
+                    String widgetStr = supportAndroidAttrs[i].split("_")[0];
+                    for (int j = 0; j < supportAndroidWidget.length; j++) {
+                        if (widgetStr.equals(supportAndroidWidget[j])) {
+                            int[] widgetAllAttrs = (int[]) widgetField[j].get(null);
+                            int attrId = widgetAllAttrs[index];
+                            supportAndroidAttrIds[i] = attrId;
+                            break;
+                        }
+                    }
+                }
             }
             // view的stytle命中
-            a = context.obtainStyledAttributes(attrs, attributes, 0, 0);
-            fillData(context, a, viewAttrs);
-            // 从textview再取一遍,否则style里的textcolor都会换肤失败;无法命中
-            a = context.obtainStyledAttributes(attrs, attributesTv, 0, 0);
-            fillData(context, a, viewAttrs);
-            // 从ImageView再取一遍
-            a = context.obtainStyledAttributes(attrs, attributesIv, 0, 0);
+            // a = context.obtainStyledAttributes(attrs, attributes, 0, 0);
+            // fillData(context, a, viewAttrs);
+            // // 从textview再取一遍,否则style里的textcolor都会换肤失败;无法命中
+            // a = context.obtainStyledAttributes(attrs, attributesTv, 0, 0);
+            // fillData(context, a, viewAttrs);
+            // // 从ImageView再取一遍
+            // a = context.obtainStyledAttributes(attrs, attributesIv, 0, 0);
+            // fillData(context, a, viewAttrs);
+            int textColorResId = Resources.getSystem().getIdentifier("textColor", "attr", "android");
+            int textColorHintResId = Resources.getSystem().getIdentifier("textColorHint", "attr", "android");
+            int backgroudResId = Resources.getSystem().getIdentifier("background", "attr", "android");
+            int srcResId = Resources.getSystem().getIdentifier("src", "attr", "android");
+            a = context.obtainStyledAttributes(attrs, supportAndroidAttrIds, 0, 0);
             fillData(context, a, viewAttrs);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -87,19 +94,9 @@ public class ReflectUtil {
         int N = a.getIndexCount();
         int resId;
         for (int j = 0; j < N; j++) {
-            int attr = a.getIndex(j);
-            if (attr == bg) {
-                attrName = MutableAttr.TYPE.BACKGROUND.getRealName();
-            } else if (attr == color) {
-                attrName = MutableAttr.TYPE.TEXT_COLOR.getRealName();
-            } else if (attr == hintColor) {
-                attrName = MutableAttr.TYPE.HINT_TEXT_COLOR.getRealName();
-            } else if (attr == ivSrc) {
-                attrName = MutableAttr.TYPE.SRC.getRealName();
-            } else {
-                continue;
-            }
-            resId = a.getResourceId(attr, 0);
+            int index = a.getIndex(j);
+            attrName = supportAndroidAttrsRealName[index];
+            resId = a.getResourceId(index, 0);
             if (resId == 0) {
                 continue;
             }
@@ -112,10 +109,10 @@ public class ReflectUtil {
                 // hint_foreground_light hint_foreground_material_light ,bright_foreground_disabled_material_light
                 continue;
             String typeName = context.getResources().getResourceTypeName(resId);
-            MutableAttr mutableAttr = MutableAttrFactory.create(attrName, resId, entryName, typeName);
-            if (mutableAttr != null) {
-                viewAttrs.add(mutableAttr);
-            }
+//            MutableAttr mutableAttr = MutableAttrFactory.create(attrName, resId, entryName, typeName);
+//            if (mutableAttr != null) {
+//                viewAttrs.add(mutableAttr);
+//            }
         }
     }
     /* @Deprecated

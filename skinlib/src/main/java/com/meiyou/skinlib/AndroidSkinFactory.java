@@ -91,45 +91,10 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
     }
 
     private List<MutableAttr> saveAttrs(Context context, View view, AttributeSet attrs) {
-        List<MutableAttr> viewAttrs = new ArrayList<>();
         if (view == null) {
-            return viewAttrs;
+            return new ArrayList<>();
         }
-
-        for (int i = 0; i < attrs.getAttributeCount(); i++) {
-            String attrName = attrs.getAttributeName(i);
-            String attrValue = attrs.getAttributeValue(i);
-            if (!MutableAttr.support(attrName)) {
-                continue;
-            }
-
-            if (attrValue.startsWith("@")) {
-                if (attrValue.startsWith("@style/") || attrValue.startsWith("@android:style/")) {
-                    viewAttrs = ReflectUtil.processStyle(context, view, attrs, attrValue);
-                } else {
-                    try {
-                        int id = Integer.parseInt(attrValue.substring(1));
-                        if (id == 0) {
-                            if (!viewAttrs.isEmpty()) {
-                                // holderMap.put(view, viewAttrs);
-                                putView(view, viewAttrs);
-                            }
-                            return viewAttrs;
-                        }
-                        String entryName = context.getResources().getResourceEntryName(id);
-                        String typeName = context.getResources().getResourceTypeName(id);
-                        MutableAttr mutableAttr = MutableAttrFactory.create(attrName, id, entryName, typeName);
-                        if (mutableAttr != null) {
-                            viewAttrs.add(mutableAttr);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }
-
+        List<MutableAttr> viewAttrs = AndroidAttrManager.getInstance().obtainMutableAttrList(context, attrs);
         if (!viewAttrs.isEmpty()) {
             // holderMap.put(view, viewAttrs);
             putView(view, viewAttrs);
