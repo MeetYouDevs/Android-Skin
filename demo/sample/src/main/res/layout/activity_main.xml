@@ -86,6 +86,9 @@
             app:tv_border_width="10dp"
             app:tv_drawable_left_and_right="@drawable/apk_all_bottomb2c"/>
 
+        <View
+            android:layout_marginTop="10dip"
+            style="@style/divider"/>
     </LinearLayout>
 
 </LinearLayout>

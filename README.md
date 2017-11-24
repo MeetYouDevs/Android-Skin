@@ -26,7 +26,7 @@ AndroidSkin.getInstance().saveSkinAndApply(skinFilePath, SkinLoader.ASSETS);
 ### 1、在 app/buil.gradle 添加
 
 ```java
-compile 'com.meiyou:android-skin:1.0.3'
+compile 'com.meiyou:android-skin:1.0.6'
 ```
 
 ### 2、初始化
