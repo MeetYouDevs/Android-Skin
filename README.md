@@ -134,6 +134,20 @@ AndroidSkin.getInstance().setImageDrawable();
 
 AndroidSkin.getInstance().setTextColor();
 ```	  
+
+#### 自定义属性换肤
+
+```java
+AndroidSkin.getInstance().addCustomAttrSupport(R.attr.tv_border_color,
+            new ICustAttrApplyForColorListener<TestView>() {
+
+                @Override
+                public void applyColor(int attrId, TestView view, ColorStateList color) {
+                    view.setBorderColor(color.getDefaultColor());
+                }
+            });
+```
+
 ### 4、打包皮肤包
 
 和普通的打包apk包一样，将同名资源在对应的res文件夹下即可，具体请参考project的skinone和skintwo；
