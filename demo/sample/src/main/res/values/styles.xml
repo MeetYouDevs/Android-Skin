@@ -1,4 +1,4 @@
-<resources>
+<resources >
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
@@ -20,17 +20,27 @@
     <!-- Base application theme. -->
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
-       <!-- <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:textColorPrimary">@color/textColorPrimary</item>
-        <item name="android:windowBackground">@color/background</item>-->
+        <!-- <item name="colorPrimary">@color/colorPrimary</item>
+         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+         <item name="colorAccent">@color/colorAccent</item>
+         <item name="android:textColorPrimary">@color/textColorPrimary</item>
+         <item name="android:windowBackground">@color/background</item>-->
     </style>
+
+
+    <style name="TestViewStyle">
+        <item name="android:textColor">@color/cust_color</item>
+        <item name="android:background">@color/white_a</item>
+        <item name="android:textColorHint">@color/red_a</item>
+
+    </style>
+
 
     <style name="divider">
         <item name="android:background">@color/red_c</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">1px</item>
     </style>
+
 
 </resources>

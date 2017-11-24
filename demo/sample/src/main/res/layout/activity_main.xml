@@ -41,14 +41,16 @@
             android:text="选择皮肤"
             android:textColor="@color/white_a"
             />
+
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="30dip"
+            android:background="@color/colour_b"
+            android:onClick="onDatabinding"
             android:text="DataBinding换肤"
             android:textColor="@color/white_a"
-            android:onClick="onDatabinding"
-            android:background="@color/colour_b"
-            android:layout_marginBottom="30dip"
+            android:visibility="gone"
             />
 
         <LinearLayout
@@ -75,11 +77,14 @@
         </LinearLayout>
 
         <com.meiyou.androidskin.TestView
+            style="@style/TestViewStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:text="i am a custom view"
-            app:tv_border_color="@color/cust_color"/>
+            app:tv_border_color="@color/cust_color"
+            app:tv_border_width="10dp"
+            app:tv_drawable_left_and_right="@drawable/apk_all_bottomb2c"/>
 
         <View
             android:layout_marginTop="10dip"

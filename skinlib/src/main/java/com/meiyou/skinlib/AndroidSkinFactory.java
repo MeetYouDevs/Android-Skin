@@ -91,46 +91,12 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
     }
 
     private List<MutableAttr> saveAttrs(Context context, View view, AttributeSet attrs) {
-        List<MutableAttr> viewAttrs = new ArrayList<>();
         if (view == null) {
-            return viewAttrs;
+            return new ArrayList<>();
         }
 
-        for (int i = 0; i < attrs.getAttributeCount(); i++) {
-            String attrName = attrs.getAttributeName(i);
-            String attrValue = attrs.getAttributeValue(i);
-            if (!MutableAttr.support(attrName, MutableAttrManager.getInstance())) {
-                continue;
-            }
-
-            if (attrValue.startsWith("@")) {
-                if (attrName.equalsIgnoreCase("style") || attrValue.startsWith("@style/") || attrValue.startsWith("@android:style/")) {
-                    viewAttrs = ReflectUtil.processStyle(context, view, attrs, attrValue);
-                } else {
-                    try {
-                        int id = Integer.parseInt(attrValue.substring(1));
-                        if (id == 0) {
-                            if (!viewAttrs.isEmpty()) {
-                                // holderMap.put(view, viewAttrs);
-                                putView(view, viewAttrs);
-                            }
-                            return viewAttrs;
-                        }
-                        String entryName = context.getResources().getResourceEntryName(id);
-                        String typeName = context.getResources().getResourceTypeName(id);
-                        MutableAttr mutableAttr =
-                            MutableAttrFactory.create(attrName, id, entryName, typeName,
-                                MutableAttrManager.getInstance());
-                        if (mutableAttr != null) {
-                            viewAttrs.add(mutableAttr);
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-
-            }
-        }
+        List<MutableAttr> viewAttrs = AndroidAttrManager.getInstance().obtainMutableAttrList(context, attrs);
+        CustomAttrManager.getInstance().obtainMutableAttrList(context, attrs, viewAttrs);
 
         if (!viewAttrs.isEmpty()) {
             // holderMap.put(view, viewAttrs);
@@ -435,7 +401,6 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
                 .getAndroidSkinManager()
                 .getAndroidSkinResources()
                 .getResourceTypeName(attrValueRefId);
-        return MutableAttrFactory.create(attrName, attrValueRefId, attrValueRefName, typeName,
-            MutableAttrManager.getInstance());
+        return MutableAttrFactory.create(attrName, attrValueRefId, attrValueRefName, typeName);
     }
 }
