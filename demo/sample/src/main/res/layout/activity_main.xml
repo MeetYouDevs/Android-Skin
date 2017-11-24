@@ -83,6 +83,7 @@
             android:layout_gravity="center_horizontal"
             android:text="i am a custom view"
             app:tv_border_color="@color/cust_color"
+            app:tv_border_width="10dp"
             app:tv_drawable_left_and_right="@drawable/apk_all_bottomb2c"/>
 
     </LinearLayout>

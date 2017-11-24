@@ -10,10 +10,10 @@ import com.meiyou.skinlib.AndroidSkin;
  * Author: meetyou
  * Date: 17/11/10 10:05.
  */
-public class TextColorAttr extends MutableAttr {
+public class TextHintColorAttr extends MutableAttr {
     public static final String RES_TYPE_NAME_HINT_COLOR = "hintTextColor";
 
-    public TextColorAttr(String attrName, int attrValueRefId, String attrValueRefName, String typeName) {
+    public TextHintColorAttr(String attrName, int attrValueRefId, String attrValueRefName, String typeName) {
         super(attrName, attrValueRefId, attrValueRefName, typeName);
         this.type = TYPE.TEXT_COLOR;
     }
@@ -29,7 +29,7 @@ public class TextColorAttr extends MutableAttr {
                 ColorStateList color =
                     AndroidSkin.getInstance()
                         .getSkinColorStateList(attrValueTypeName, attrValueRefName, attrValueRefId);
-                tv.setTextColor(color);
+                tv.setHintTextColor(color);
 
             }
         }

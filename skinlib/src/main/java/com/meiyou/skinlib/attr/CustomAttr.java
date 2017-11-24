@@ -1,5 +1,6 @@
 package com.meiyou.skinlib.attr;
 
+import android.content.res.ColorStateList;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -11,8 +12,14 @@ import com.meiyou.skinlib.CustomAttrManager;
  */
 
 public class CustomAttr extends MutableAttr {
-    public CustomAttr(String attrName, int attrValueRefId, String attrValueRefName, String typeName) {
+    /**
+     * 自定义属性的attrId
+     */
+    private int attrId;
+
+    public CustomAttr(String attrName, int attrValueRefId, String attrValueRefName, String typeName, int attrId) {
         super(attrName, attrValueRefId, attrValueRefName, typeName);
+        this.attrId = attrId;
     }
 
     @Override
@@ -20,20 +27,20 @@ public class CustomAttr extends MutableAttr {
         if (RES_TYPE_NAME_COLOR.equals(attrValueTypeName)) {
             // 颜色
             ICustAttrApplyForColorListener colorListener =
-                CustomAttrManager.getInstance().getApplyColorListener(attrName);
+                CustomAttrManager.getInstance().getApplyColorListener(attrId);
             if (colorListener != null) {
-                int color = AndroidSkin.getInstance().getSkinColor(attrValueTypeName, attrValueRefName, attrValueRefId);
-                colorListener.applyColor(attrName, view, color);
+                ColorStateList color = AndroidSkin.getInstance().getSkinColorStateList(attrValueTypeName, attrValueRefName, attrValueRefId);
+                colorListener.applyColor(attrId, view, color);
             }
 
         } else if (RES_TYPE_NAME_DRAWABLE.equals(attrValueTypeName)) {
             // drawable
             ICustAttrApplyForDrawableListener drawableListener =
-                CustomAttrManager.getInstance().getApplyDrawableListener(attrName);
+                CustomAttrManager.getInstance().getApplyDrawableListener(attrId);
             if (drawableListener != null) {
                 Drawable drawable =
                     AndroidSkin.getInstance().getSkinDrawable(attrValueTypeName, attrValueRefName, attrValueRefId);
-                drawableListener.applyDrawable(attrName, view, drawable);
+                drawableListener.applyDrawable(attrId, view, drawable);
             }
         }
     }

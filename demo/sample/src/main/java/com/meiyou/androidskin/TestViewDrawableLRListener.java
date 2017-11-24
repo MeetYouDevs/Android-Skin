@@ -11,7 +11,7 @@ import com.meiyou.skinlib.attr.ICustAttrApplyForDrawableListener;
 public class TestViewDrawableLRListener implements ICustAttrApplyForDrawableListener<TestView> {
 
     @Override
-    public void applyDrawable(String attrName, TestView view, Drawable drawable) {
+    public void applyDrawable(int attrId, TestView view, Drawable drawable) {
         view.setDrawableLeftAndRight(drawable);
     }
 }

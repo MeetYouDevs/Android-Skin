@@ -306,21 +306,19 @@ public class AndroidSkin implements IAndroidSkin {
 
     /**
      * 增加自定义属性支持
-     * @param attr 属性名，如：tv_border_color
+     * @param   attrId 自定义属性id，如R.attr.tv_border_color
      * @param colorListener 当皮肤切换时的回调，回调里包含需要替换的color值
      */
-    public void addCustomAttrSupport(@NonNull String attr,
-        @NonNull ICustAttrApplyForColorListener colorListener) {
-        CustomAttrManager.getInstance().addCustomAttr(attr, colorListener);
+    public void addCustomAttrSupport(int attrId, @NonNull ICustAttrApplyForColorListener colorListener) {
+        CustomAttrManager.getInstance().addCustomAttr(attrId, colorListener);
     }
 
     /**
      * 增加自定义属性支持
-     * @param attr 属性名，如：tv_border_color
+     * @param attrId 自定义属性id，如R.attr.tv_border_color
      * @param drawableListener 当皮肤切换时的回调，回调里包含需要替换的drawable值
      */
-    public void addCustomAttrSupport(@NonNull String attr,
-        @NonNull ICustAttrApplyForDrawableListener drawableListener) {
-        CustomAttrManager.getInstance().addCustomAttr(attr, drawableListener);
+    public void addCustomAttrSupport(int attrId, @NonNull ICustAttrApplyForDrawableListener drawableListener) {
+        CustomAttrManager.getInstance().addCustomAttr(attrId, drawableListener);
     }
 }

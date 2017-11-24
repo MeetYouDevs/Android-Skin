@@ -1,5 +1,6 @@
 package com.meiyou.skinlib.attr;
 
+import android.content.res.ColorStateList;
 import android.view.View;
 
 /**
@@ -8,6 +9,6 @@ import android.view.View;
 
 public interface ICustAttrApplyForColorListener<T extends View> {
 
-    void applyColor(String attrName, T view, int color);
+    void applyColor(int attrId, T view, ColorStateList color);
 
 }

@@ -95,6 +95,7 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
             return new ArrayList<>();
         }
         List<MutableAttr> viewAttrs = AndroidAttrManager.getInstance().obtainMutableAttrList(context, attrs);
+        CustomAttrManager.getInstance().obtainMutableAttrList(context, attrs, viewAttrs);
         if (!viewAttrs.isEmpty()) {
             // holderMap.put(view, viewAttrs);
             putView(view, viewAttrs);

@@ -37,6 +37,7 @@ public abstract class MutableAttr {
     }
 
     /**
+     * 自定义属性将为null
      * name of the attr, ex: background or textSize or textColor
      */
     public String attrName;
@@ -69,6 +70,6 @@ public abstract class MutableAttr {
             }
         }
         // 判断自定义属性
-        return CustomAttrManager.getInstance().isAttrSupport(attrName);
+        return false;
     }
 }

@@ -35,7 +35,7 @@ public class AndroidAttrManager {
     }
 
     /**
-     * 通过传入的属性，获取支持的属性MutableAttr列表，包括自定义属性
+     * 通过传入的属性，获取支持的android属性MutableAttr列表
      * @param context
      * @param attrs
      * @return

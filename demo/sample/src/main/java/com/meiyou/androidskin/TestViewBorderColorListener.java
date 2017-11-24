@@ -1,5 +1,7 @@
 package com.meiyou.androidskin;
 
+import android.content.res.ColorStateList;
+
 import com.meiyou.skinlib.attr.ICustAttrApplyForColorListener;
 
 /**
@@ -9,7 +11,7 @@ import com.meiyou.skinlib.attr.ICustAttrApplyForColorListener;
 public class TestViewBorderColorListener implements ICustAttrApplyForColorListener<TestView> {
 
     @Override
-    public void applyColor(String attrName, TestView view, int color) {
-        view.setBorderColor(color);
+    public void applyColor(int attrId, TestView view, ColorStateList color) {
+        view.setBorderColor(color.getDefaultColor());
     }
 }

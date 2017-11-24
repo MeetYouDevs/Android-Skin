@@ -107,5 +107,5 @@
 
     <color name="black_status_bar">#000000</color>
 
-    <color name="cust_color">@color/all_black</color>
+    <color name="cust_color">#000000</color>
 </resources>

@@ -9,6 +9,6 @@ import android.view.View;
 
 public interface ICustAttrApplyForDrawableListener<T extends View> {
 
-    void applyDrawable(String attrName, T view, Drawable drawable);
+    void applyDrawable(int attrId, T view, Drawable drawable);
 
 }
