@@ -166,6 +166,7 @@ AndroidSkin.getInstance().addCustomAttrSupport(R.attr.tv_border_color,
 然后gradle clean assembleRelease生成apk，放到主app的assets下或者放到sd卡，
 使用AndroidSkin加载皮肤即可生效
 
+## [License MIT](LICENSE)
 
 
 
