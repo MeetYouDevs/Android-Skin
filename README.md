@@ -26,7 +26,7 @@ AndroidSkin.getInstance().saveSkinAndApply(skinFilePath, SkinLoader.ASSETS);
 ### 1、在 app/buil.gradle 添加
 
 ```java
-compile 'com.meiyou:android-skin:1.0.8'
+compile 'com.meiyou:android-skin:1.0.9'
 ```
 
 ### 2、初始化
@@ -147,6 +147,11 @@ AndroidSkin.getInstance().addCustomAttrSupport(R.attr.tv_border_color,
                 }
             });
 ```
+
+#### Fragment换肤注意事项
+
+fragment的onCrateView用来inflate的对象必须是AndroidSkin.getLayoutInflater();
+
 
 ### 4、打包皮肤包
 
