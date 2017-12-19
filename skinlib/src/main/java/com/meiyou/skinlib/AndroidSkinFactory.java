@@ -45,6 +45,10 @@ public class AndroidSkinFactory implements LayoutInflater.Factory2, RuntimeGenVi
 
     }
 
+    public static LayoutInflater getsInflater() {
+        return sInflater;
+    }
+
     public static AndroidSkinFactory from(Context context, LayoutInflater inflater) {
         if (sInstance == null) {
             synchronized (AndroidSkinFactory.class) {
