@@ -56,7 +56,7 @@ public class MutableAttrFactory {
     }
 
     private static MutableAttr create(@NonNull MutableAttr.TYPE type, int attrValueRefId, String attrValueRefName,
-        String typeName) {
+                                      String typeName) {
         String attrName = type.getRealName();
         switch (type) {
             case BACKGROUND:
@@ -72,6 +72,8 @@ public class MutableAttrFactory {
             case DRAWABLE_RIGHT:
             case DRAWABLE_BOTTOM:
                 return new DrawableLRTBAttr(type.getRealName(), attrName, attrValueRefId, attrValueRefName, typeName);
+            case FONTFAMILY:
+                return new FontAttr(attrName, attrValueRefId, attrValueRefName, typeName);
         }
         return null;
     }

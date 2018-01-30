@@ -2,8 +2,6 @@ package com.meiyou.skinlib.attr;
 
 import android.view.View;
 
-import com.meiyou.skinlib.CustomAttrManager;
-
 /**
  * Author: meetyou
  * Date: 17/11/10 09:57.
@@ -13,11 +11,13 @@ public abstract class MutableAttr {
     protected static final String TAG = "MutableAttr";
     public static final String RES_TYPE_NAME_COLOR = "color";
     public static final String RES_TYPE_NAME_DRAWABLE = "drawable";
+    public static final String RES_FONT = "font";//android:font="@font/lobster_italic"
 
     public enum TYPE {
         BACKGROUND("background"), SRC("src"), HINT_TEXT_COLOR("textColorHint"), TEXT_COLOR("textColor"), DRAWABLE_LEFT(
             "drawableLeft"), DRAWABLE_RIGHT("drawableRight"), DRAWABLE_TOP("drawableTop"), DRAWABLE_BOTTOM(
-            "drawableBottom"), ;
+            "drawableBottom"),  FONTFAMILY("fontFamily"), ;
+
         private String realName;
 
         private TYPE(String realName) {
